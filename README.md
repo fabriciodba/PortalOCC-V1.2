@@ -7,7 +7,7 @@
 -- Configurar a tela de login e cadastro para mostrar a senha que esta sendo executado.  
 -- Configurar a opcao de "lembra-me" para que lembre o email sem precisar digitar novamente.  
 -- Ajustar para fazer o login atraves de "username" e "email".  
--- Adicionado o Tema claro/escuro
+-- Adicionado o Tema claro/escuro.    
 -- Adicionado a pagina "conta" para alteração do dados e adicionar foto para o usuário   
 
 # Proximos Passos
