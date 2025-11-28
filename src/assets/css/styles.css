@@ -1,0 +1,339 @@
+:root {
+  --primary: #000000;
+  --primary-hover: #000000;
+  --success: #000000;
+  --success-hover: #000000;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Layout base das telas de autenticação */
+.page-auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url("../img/picpay.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Reaproveita o mesmo fundo nas telas de login/cadastro/esqueci/reset */
+.page-auth-login {
+  background: transparent;
+}
+
+/* Caixa de login/cadastro/reset */
+.page-auth .container {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 28px 32px 32px;
+  box-shadow: 0 20px 40px rgba(5, 7, 5, 0.918);
+  box-sizing: border-box;
+}
+
+/* Abas no topo da caixa (Login / Cadastro) */
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin: -28px -32px 24px;
+  padding: 16px 32px 12px;
+  background: #f4f5f7;
+  border-radius: 28px 28px 0 0;
+  border-bottom: 1px solid #e6ebe5;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #9caf9c;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.tab.active {
+  color: #112714;
+  font-weight: 600;
+}
+
+.tab.active {
+  color: #05f73a;
+  font-weight: 600;
+}
+
+
+/* Avatar circular central */
+.auth-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  margin: 0 auto 16px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 32px;
+}
+
+/* Título e subtítulo */
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+  text-align: center;
+  color: #787e8b;
+}
+
+.auth-subtitle {
+  margin: 0 0 20px;
+  font-size: 0.9rem;
+  color: #8c8f99;
+  text-align: center;
+}
+
+/* Formulário */
+.form-group {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #4b6350;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #02fc02;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(94, 245, 74, 0.952);
+}
+
+/* Botão principal (Acessar / Cadastrar / Redefinir) */
+.btn-primary,
+button[type="submit"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0dee05, #34e906);
+  color: #ffffff;
+  box-shadow: 0 12px 20px rgba(4, 10, 5, 0);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 26px rgba(21, 233, 14, 0.45);
+  filter: brightness(1.03);
+}
+
+.btn-primary:active,
+button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 18px rgba(7, 238, 26, 0.3);
+}
+
+/* Links auxiliares (Esqueceu a senha, já tem conta etc.) */
+.link-area {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.link-area a {
+  color: #7f808a;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-area a:hover {
+  text-decoration: underline;
+}
+
+/* Mensagens de erro/sucesso */
+.mensagem {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.mensagem.erro {
+  color: #b91c1c;
+}
+
+.mensagem.sucesso {
+  color: #166534;
+}
+
+.page-index {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f4f4;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #222;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.sidebar-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  padding: 6px 0;
+  font-size: 0.95rem;
+}
+
+/* Rodapé da sidebar (usuário + logout) */
+.sidebar-footer {
+  border-top: 1px solid rgba(250, 246, 246, 0.3);
+  padding-top: 12px;
+}
+
+.sidebar-user-label span {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.sidebar-user-label strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.sidebar-user-email {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+/* Botão logout */
+.btn-logout {
+  margin-top: 10px;
+  width: 100%;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Conteúdo principal */
+main {
+  flex: 1;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+
+.auth-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: block;
+}
+
+/* ===== Login: lembrar login e mostrar senha ===== */
+
+.remember-and-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.remember-login-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #6b7280;            /* texto cinza */
+}
+
+.remember-login-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: #6b7280;     /* cor do “botão” do checkbox em cinza */
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+  padding-right: 80px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #4b6350;
+}
+
+.password-toggle:hover {
+  text-decoration: underline;
+}
