@@ -13,4 +13,5 @@
 # Proximos Passos
 
 -- Realiza ajustes nas tabelas e nos formularios para mais dados de cadastro.  
--- Ajustar o tamanho dos menus da tela de home
+-- Ajustar o tamanho dos menus da tela de home  
+-- Adicionar um timeout para sair do sistema    
