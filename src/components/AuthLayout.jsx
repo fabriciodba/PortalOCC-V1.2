@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import userImg from "../assets/img/user.png";
 
 function AuthLayout({ title, subtitle, activeTab, showTabs = true, children }) {
   return (
@@ -24,7 +25,12 @@ function AuthLayout({ title, subtitle, activeTab, showTabs = true, children }) {
 
         <h1>{title}</h1>
 
+        <div className="auth-avatar">
+          <img src={userImg} alt="Usuário" />
+        </div>
+
         {subtitle && <p className="auth-subtitle">{subtitle}</p>}
+
 
         {children}
       </div>

@@ -8,17 +8,17 @@ async function readJson(response) {
   }
 }
 
-export async function apiLogin({ email, password }) {
+export async function apiLogin({ login, password }) {
   const response = await fetch(`${API_BASE_URL}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ login, password }),
   });
 
   const data = await readJson(response);
 
   if (!response.ok) {
-    let msg = "E-mail ou senha inválidos.";
+    let msg = "E-mail/usuário ou senha inválidos.";
     if (data && data.detail) msg = data.detail;
     throw new Error(msg);
   }
@@ -26,17 +26,36 @@ export async function apiLogin({ email, password }) {
   return data;
 }
 
-export async function apiRegister({ nome, email, password }) {
+export async function apiRegister({ nome, username, email, telefone, time, password }) {
   const response = await fetch(`${API_BASE_URL}/api/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome, email, password }),
+    body: JSON.stringify({ nome, username, email, telefone, time, password }),
   });
 
   const data = await readJson(response);
 
   if (!response.ok) {
     let msg = "Erro ao cadastrar usuário.";
+    if (data && data.detail) msg = data.detail;
+    throw new Error(msg);
+  }
+
+  return data;
+}
+
+
+export async function apiUpdateAccount(userId, { nome, username, telefone, time, foto }) {
+  const response = await fetch(`${API_BASE_URL}/api/account/${userId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nome, username, telefone, time, foto }),
+  });
+
+  const data = await readJson(response);
+
+  if (!response.ok) {
+    let msg = "Erro ao atualizar dados da conta.";
     if (data && data.detail) msg = data.detail;
     throw new Error(msg);
   }

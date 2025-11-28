@@ -288,6 +288,7 @@ main {
   display: block;
 }
 
+
 /* ===== Login: lembrar login e mostrar senha ===== */
 
 .remember-and-toggle {
@@ -304,13 +305,13 @@ main {
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  color: #6b7280;            /* texto cinza */
+  color: #6b7280; /* cinza */
 }
 
 .remember-login-label input[type="checkbox"] {
   width: auto;
   margin: 0;
-  accent-color: #6b7280;     /* cor do “botão” do checkbox em cinza */
+  accent-color: #6b7280;
 }
 
 .password-wrapper {
@@ -331,9 +332,381 @@ main {
   background: transparent;
   font-size: 0.8rem;
   cursor: pointer;
-  color: #4b6350;
+  color: #6b7280;
 }
 
 .password-toggle:hover {
   text-decoration: underline;
+}
+
+/* Título de seções do formulário de cadastro */
+.section-title {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #1f2933;
+}
+
+
+/* Ajustes de estilo para telefone, select e texto de campos obrigatórios */
+
+/* Deixa telefone com o mesmo estilo dos demais inputs */
+input[type="tel"] {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="tel"]:focus {
+  border-color: #02fc02;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(94, 245, 74, 0.952);
+}
+
+/* Deixa o select (dropmenu) com aparência alinhada aos inputs */
+select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  appearance: none;
+}
+
+select:focus {
+  border-color: #02fc02;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(94, 245, 74, 0.952);
+}
+
+/* Texto de campos obrigatórios (abaixo do formulário) */
+.required-text {
+  margin-top: 6px;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  color: #b91c1c; /* vermelho */
+  text-align: left;
+}
+
+
+/* Ajuste visual específico para o dropmenu de times (N1, DBA, SRE) */
+select#time {
+  font-weight: 500;
+  color: #111827;
+}
+
+select#time option {
+  font-size: 0.9rem;
+  padding: 6px 10px;
+}
+
+/* Placeholder do select (linha 'Selecione o time') em cinza */
+select#time option[value=""] {
+  color: #9ca3af;
+}
+
+
+/* Centraliza títulos de seção do formulário (Dados de login / Dados pessoais) */
+.section-title {
+  text-align: center;
+}
+
+/* Garante que o placeholder do select de time use a mesma cor neutra dos demais */
+select#time option[value=""] {
+  color: #9ca3af;
+}
+
+
+/* ===== Home: barra superior + menu Conta ===== */
+
+/* Força a página inicial a usar layout em coluna com fundo suave */
+.page-index {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f4f4f4;
+}
+
+/* Barra superior com estilo semelhante à caixa de formulário */
+.home-topbar {
+  width: 100%;
+  max-width: 1100px;
+  margin: 16px auto 24px;
+  padding: 12px 24px;
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 0 16px 32px rgba(5, 7, 5, 0.18);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.home-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.home-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.home-topbar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+}
+
+.home-nav-link {
+  font-size: 0.9rem;
+  color: #4b5563;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.home-nav-link:hover {
+  text-decoration: underline;
+}
+
+.home-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.home-user-label span {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.home-user-label strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.home-user-email {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* Botões fantasma (Conta / Sair) na barra superior */
+.btn-ghost {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #111827;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-ghost:hover {
+  border-color: #02fc02;
+  background: #ecfdf3;
+  box-shadow: 0 0 0 2px rgba(94, 245, 74, 0.3);
+}
+
+.btn-logout-top {
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.btn-logout-top:hover {
+  background: #fef2f2;
+  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.3);
+}
+
+/* Seção de conta */
+.account-section {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 24px;
+  padding: 20px 24px 24px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 14px 28px rgba(5, 7, 5, 0.16);
+  box-sizing: border-box;
+}
+
+.account-section .section-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.account-form .form-group:last-of-type {
+  margin-bottom: 10px;
+}
+
+/* Campo de e-mail bloqueado na edição de conta */
+.account-form input[disabled] {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Pequeno ajuste para o main com barra superior */
+.page-index main {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 24px;
+  padding: 0 24px 24px;
+}
+
+
+/* Avatar de marca à esquerda do texto "Portal OCC" */
+.home-brand-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.home-brand-avatar img {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: block;
+}
+
+/* Avatar do usuário logado na barra superior */
+.home-user-avatar-wrapper {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+.home-user-avatar-wrapper:hover .home-user-avatar {
+  border-color: #02fc02;
+  box-shadow: 0 0 0 2px rgba(94, 245, 74, 0.35);
+}
+
+/* Foto maior na página de Conta */
+.account-photo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.account-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+
+/* ===== Tema Dark/Light ===== */
+/* O body mantém o fundo padrão; o tema escuro aplica apenas nas páginas após login (.page-index). */
+body.theme-light {
+  background-color: #f4f4f4;
+  color: #111827;
+}
+
+body.theme-dark {
+  background-color: #f4f4f4;
+  color: #111827;
+}
+
+/* Páginas após login (Home, Conta, etc.) */
+body.theme-dark .page-index {
+  background-color: #020617;
+  color: #e5e7eb;
+}
+
+/* Barra superior, seção de conta e conteúdo principal em modo escuro */
+body.theme-dark .home-topbar,
+body.theme-dark .account-section,
+body.theme-dark .page-index main {
+  background-color: #0b1120;
+  color: #e5e7eb;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+/* Texto da área "Bem-vindo, <nome>" e demais textos do main */
+body.theme-dark .page-index main h1,
+body.theme-dark .page-index main p,
+body.theme-dark .page-index main li {
+  color: #e5e7eb;
+}
+
+/* Campos de formulário em modo escuro (apenas dentro das páginas logadas) */
+body.theme-dark .page-index input[type="text"],
+body.theme-dark .page-index input[type="email"],
+body.theme-dark .page-index input[type="password"],
+body.theme-dark .page-index input[type="tel"],
+body.theme-dark .page-index select {
+  background-color: #020617;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.theme-dark .page-index input::placeholder,
+body.theme-dark .page-index select::placeholder {
+  color: #6b7280;
+}
+
+/* Botões em modo escuro apenas nas páginas logadas */
+body.theme-dark .page-index .btn-primary {
+  background-color: #22c55e;
+  border-color: #16a34a;
+  color: #052e16;
+}
+
+body.theme-dark .page-index .btn-primary:hover {
+  background-color: #16a34a;
+}
+
+body.theme-dark .page-index .btn-ghost {
+  background-color: transparent;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.theme-dark .page-index .btn-ghost:hover {
+  border-color: #22c55e;
+  background-color: #022c22;
+}
+
+/* Texto de campos obrigatórios nas páginas logadas */
+body.theme-dark .page-index .required-text {
+  color: #fca5a5;
 }

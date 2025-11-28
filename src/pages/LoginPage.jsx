@@ -9,7 +9,7 @@ const REMEMBER_LOGIN_KEY = "loginLembrado";
 function LoginPage() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState(""); // pode ser e-mail OU usuário
   const [password, setPassword] = useState("");
   const [rememberLogin, setRememberLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -18,19 +18,25 @@ function LoginPage() {
   const [msgType, setMsgType] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Carrega o e-mail salvo (caso o usuário tenha marcado "Lembrar meu login")
+  // Carrega o login salvo (e-mail ou usuário) caso tenha sido marcado anteriormente
   useEffect(() => {
+    // Páginas de login sempre em tema claro
+    if (typeof document !== "undefined") {
+      document.body.classList.remove("theme-dark", "theme-light");
+      document.body.classList.add("theme-light");
+    }
+
     try {
       const raw = localStorage.getItem(REMEMBER_LOGIN_KEY);
       if (!raw) return;
 
       const saved = JSON.parse(raw);
-      if (saved && typeof saved.email === "string") {
-        setEmail(saved.email);
+      if (saved && typeof saved.login === "string") {
+        setLogin(saved.login);
         setRememberLogin(true);
       }
     } catch {
-      // Se der erro ao ler o JSON, apenas ignoramos.
+      // Se der erro ao ler o JSON, apenas ignora
     }
   }, []);
 
@@ -39,7 +45,7 @@ function LoginPage() {
     setMsg("");
     setMsgType(null);
 
-    if (!email || !password) {
+    if (!login || !password) {
       setMsg("Preencha todos os campos.");
       setMsgType("error");
       return;
@@ -48,20 +54,24 @@ function LoginPage() {
     try {
       setLoading(true);
 
-      const usuario = await apiLogin({ email, password });
+      const usuario = await apiLogin({ login, password });
 
       const usuarioLogado = {
         id: usuario.id,
         nome: usuario.nome,
+        username: usuario.username,
         email: usuario.email,
+        telefone: usuario.telefone,
+        time: usuario.time,
+        foto: usuario.foto || "",
       };
       localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
 
-      // Persiste (ou limpa) o e-mail lembrado
+      // Persiste (ou limpa) o login lembrado
       if (rememberLogin) {
         localStorage.setItem(
           REMEMBER_LOGIN_KEY,
-          JSON.stringify({ email })
+          JSON.stringify({ login })
         );
       } else {
         localStorage.removeItem(REMEMBER_LOGIN_KEY);
@@ -90,16 +100,16 @@ function LoginPage() {
     >
       <form id="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email"></label>
+          <label htmlFor="login"></label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
+            type="text"
+            id="login"
+            name="login"
+            placeholder="E-mail ou usuário"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
+            autoComplete="username"
           />
         </div>
 
@@ -133,7 +143,7 @@ function LoginPage() {
               checked={rememberLogin}
               onChange={(e) => setRememberLogin(e.target.checked)}
             />
-            Lembrar-me
+            Lembrar meu login
           </label>
         </div>
 
@@ -141,7 +151,7 @@ function LoginPage() {
           {loading ? "Entrando..." : "Acessar"}
         </button>
 
-        <div className="link-area">
+        <div className="links-extra">
           <Link to="/forgot-password">Esqueci minha senha</Link>
         </div>
 

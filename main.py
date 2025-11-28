@@ -3,6 +3,7 @@ import secrets
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import Session, relationship
 from passlib.context import CryptContext
@@ -18,7 +19,7 @@ from smtp.config_smtp import send_reset_email
 # ===========================================
 
 from db.config_db import Base, engine, get_db
-from db.tables import Usuario, PasswordResetToken
+from db.tables import Usuario, PasswordResetToken, UsuarioFoto
 
 # ===========================================
 # Configuração de senha (hashing)
@@ -50,21 +51,36 @@ Base.metadata.create_all(bind=engine)
 # ===========================================
 class UsuarioCreate(BaseModel):
     nome: str
+    username: str
     email: EmailStr
+    telefone: str
+    time: str
     password: str
 
 
 class UsuarioOut(BaseModel):
     id: int
     nome: str
+    username: str
     email: EmailStr
+    telefone: str
+    time: str
+    foto: Optional[str] = None
 
     class Config:
         orm_mode = True
 
+class UsuarioUpdate(BaseModel):
+    nome: str
+    username: str
+    telefone: str
+    time: str
+    foto: Optional[str] = None
+
+
 
 class LoginData(BaseModel):
-    email: EmailStr
+    login: str  # pode ser e-mail ou username
     password: str
 
 
@@ -81,18 +97,30 @@ class ResetPasswordRequest(BaseModel):
 # Função auxiliar para criar usuário
 # ===========================================
 def _criar_usuario_impl(dados: UsuarioCreate, db: Session) -> Usuario:
-    usuario_existente = db.query(Usuario).filter(Usuario.email == dados.email).first()
-    if usuario_existente:
+    # Verifica se já existe usuário com o mesmo e-mail
+    usuario_existente_email = db.query(Usuario).filter(Usuario.email == dados.email).first()
+    if usuario_existente_email:
         raise HTTPException(
             status_code=400,
             detail="Já existe um usuário cadastrado com esse e-mail.",
+        )
+
+    # Verifica se já existe usuário com o mesmo username
+    usuario_existente_username = db.query(Usuario).filter(Usuario.username == dados.username).first()
+    if usuario_existente_username:
+        raise HTTPException(
+            status_code=400,
+            detail="Já existe um usuário cadastrado com esse nome de usuário.",
         )
 
     senha_hash = pwd_context.hash(dados.password)
 
     novo_usuario = Usuario(
         nome=dados.nome,
+        username=dados.username,
         email=dados.email,
+        telefone=dados.telefone,
+        time=dados.time,
         senha_hash=senha_hash,
     )
 
@@ -103,24 +131,87 @@ def _criar_usuario_impl(dados: UsuarioCreate, db: Session) -> Usuario:
     return novo_usuario
 
 
+def usuario_to_out(usuario: Usuario, db: Session) -> UsuarioOut:
+    """Monta o objeto de saída incluindo a foto (quando existir)."""
+    foto_registro = db.query(UsuarioFoto).filter(UsuarioFoto.usuario_id == usuario.id).first()
+    foto_str = foto_registro.foto if foto_registro else None
+    return UsuarioOut(
+        id=usuario.id,
+        nome=usuario.nome,
+        username=usuario.username,
+        email=usuario.email,
+        telefone=usuario.telefone,
+        time=usuario.time,
+        foto=foto_str,
+    )
+
+
 # ===========================================
 # ENDPOINT: Cadastro de usuário
 # ===========================================
 @app.post("/api/register", response_model=UsuarioOut)
 def criar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
-    return _criar_usuario_impl(dados, db)
+    novo_usuario = _criar_usuario_impl(dados, db)
+    return usuario_to_out(novo_usuario, db)
 
+
+# ===========================================
+# ENDPOINT: Atualizar dados da conta (exceto e-mail)
+# ===========================================
+@app.put("/api/account/{user_id}", response_model=UsuarioOut)
+def atualizar_conta(user_id: int, dados: UsuarioUpdate, db: Session = Depends(get_db)):
+    usuario = db.query(Usuario).filter(Usuario.id == user_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado.")
+
+    # Verifica se já existe outro usuário com o mesmo username
+    outro_usuario = (
+        db.query(Usuario)
+        .filter(Usuario.username == dados.username, Usuario.id != user_id)
+        .first()
+    )
+    if outro_usuario:
+        raise HTTPException(
+            status_code=400,
+            detail="Já existe um usuário cadastrado com esse nome de usuário.",
+        )
+
+    # Atualiza somente os campos permitidos (e-mail permanece inalterado)
+    usuario.nome = dados.nome
+    usuario.username = dados.username
+    usuario.telefone = dados.telefone
+    usuario.time = dados.time
+
+    # Atualiza/insere foto, se informada
+    if dados.foto is not None:
+        foto_registro = db.query(UsuarioFoto).filter(UsuarioFoto.usuario_id == user_id).first()
+        if foto_registro:
+            foto_registro.foto = dados.foto
+        else:
+            foto_registro = UsuarioFoto(usuario_id=user_id, foto=dados.foto)
+            db.add(foto_registro)
+
+    db.commit()
+    db.refresh(usuario)
+
+    return usuario_to_out(usuario, db)
 # ===========================================
 # ENDPOINT: Login
 # ===========================================
 @app.post("/api/login", response_model=UsuarioOut)
 def login(dados: LoginData, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.email == dados.email).first()
+    """Permite login usando e-mail ou username no mesmo campo (login)."""
+    # Tenta localizar o usuário tanto por e-mail quanto por username
+    usuario = (
+        db.query(Usuario)
+        .filter((Usuario.email == dados.login) | (Usuario.username == dados.login))
+        .first()
+    )
 
     if not usuario or not pwd_context.verify(dados.password, usuario.senha_hash):
-        raise HTTPException(status_code=400, detail="E-mail ou senha inválidos.")
+        raise HTTPException(status_code=400, detail="E-mail/usuário ou senha inválidos.")
 
-    return usuario
+    return usuario_to_out(usuario, db)
 
 
 # ===========================================

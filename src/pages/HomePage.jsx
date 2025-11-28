@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import userImg from "../assets/img/user.png";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -16,6 +17,12 @@ function HomePage() {
     try {
       const parsed = JSON.parse(stored);
       setUsuario(parsed);
+
+      const savedTheme = window.localStorage.getItem("theme") || "light";
+      if (typeof document !== "undefined") {
+        document.body.classList.remove("theme-light", "theme-dark");
+        document.body.classList.add(savedTheme === "dark" ? "theme-dark" : "theme-light");
+      }
     } catch {
       localStorage.removeItem("usuarioLogado");
       navigate("/login");
@@ -31,43 +38,47 @@ function HomePage() {
     return null;
   }
 
+  const fotoUsuario = usuario.foto || userImg;
+  const tooltip = `${usuario.nome} (${usuario.email})`;
+
   return (
     <div className="page-index">
-      <aside className="sidebar">
-        <div>
-          <div className="sidebar-header">Portal OCC</div>
-
+      <header className="home-topbar">
+        <div className="home-topbar-left">
+          <div className="home-logo">Portal OCC</div>
           <nav>
-            <ul className="sidebar-menu">
+            <ul className="home-topbar-nav">
               <li>
-                <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-                  Painel
+                <Link to="/" className="home-nav-link">
+                  Home
                 </Link>
               </li>
             </ul>
           </nav>
         </div>
 
-        <div className="sidebar-footer">
-          <div className="sidebar-user">
-            <div className="sidebar-user-label">
-              <span>Usuário:</span>
-              <strong id="user-name">{usuario.nome}</strong>
-            </div>
-            <div id="user-email" className="sidebar-user-email">
-              {usuario.email}
-            </div>
-          </div>
+        <div className="home-topbar-right">
           <button
-            id="logout-btn"
-            className="btn-logout"
             type="button"
+            className="home-user-avatar-wrapper"
+            onClick={() => navigate("/conta")}
+            title={tooltip}
+          >
+            <img
+              src={fotoUsuario}
+              alt={usuario.nome}
+              className="home-user-avatar"
+            />
+          </button>
+          <button
+            type="button"
+            className="btn-ghost btn-logout-top"
             onClick={handleLogout}
           >
             Sair
           </button>
         </div>
-      </aside>
+      </header>
 
       <main>
         <h1>

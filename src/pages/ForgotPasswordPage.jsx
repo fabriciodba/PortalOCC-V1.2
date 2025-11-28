@@ -49,12 +49,12 @@ function ForgotPasswordPage() {
 
         <form id="forgot-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="forgot-email"></label>
+            <label htmlFor="forgot-email">E-mail</label>
             <input
               type="email"
               id="forgot-email"
               name="forgot-email"
-              placeholder="Email"
+              placeholder="seu.email@dominio.com"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}

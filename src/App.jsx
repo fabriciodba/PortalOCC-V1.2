@@ -5,11 +5,14 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./pages/HomePage";
+import AccountPage from "./pages/AccountPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+
+      <Route path="/conta" element={<AccountPage />} />
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
