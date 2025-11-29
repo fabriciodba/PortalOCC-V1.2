@@ -526,13 +526,13 @@ select#time option[value=""] {
 }
 
 .btn-logout-top {
-  border-color: #fecaca;
-  color: #b91c1c;
+  border-color: #fafafa;
+  color: #ffffff;
 }
 
 .btn-logout-top:hover {
-  background: #fef2f2;
-  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.3);
+  background: #36ff04;
+  box-shadow: 0 0 0 2px rgba(4, 252, 37, 0.925);
 }
 
 /* Seção de conta */
@@ -550,6 +550,8 @@ select#time option[value=""] {
 .account-section .section-title {
   margin-top: 0;
   margin-bottom: 12px;
+  font-size: 1.5rem;   /* aumenta o tamanho do título */
+  font-weight: 700;    /* deixa mais “forte” */
 }
 
 .account-form .form-group:last-of-type {
@@ -572,26 +574,6 @@ select#time option[value=""] {
   padding: 0 24px 24px;
 }
 
-
-/* Avatar de marca à esquerda do texto "Portal OCC" */
-.home-brand-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 999px;
-  background: #f3f4f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 8px;
-}
-
-.home-brand-avatar img {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  display: block;
-}
-
 /* Avatar do usuário logado na barra superior */
 .home-user-avatar-wrapper {
   border: none;
@@ -610,12 +592,12 @@ select#time option[value=""] {
   height: 40px;
   border-radius: 999px;
   object-fit: cover;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #fbfcfb;
 }
 
 .home-user-avatar-wrapper:hover .home-user-avatar {
-  border-color: #02fc02;
-  box-shadow: 0 0 0 2px rgba(94, 245, 74, 0.35);
+  border-color: #05f505;
+  box-shadow: 0 0 0 2px rgba(43, 238, 4, 0.918);
 }
 
 /* Foto maior na página de Conta */
@@ -626,8 +608,8 @@ select#time option[value=""] {
 }
 
 .account-photo {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 999px;
   object-fit: cover;
   border: 2px solid #e5e7eb;
@@ -638,17 +620,17 @@ select#time option[value=""] {
 /* O body mantém o fundo padrão; o tema escuro aplica apenas nas páginas após login (.page-index). */
 body.theme-light {
   background-color: #f4f4f4;
-  color: #111827;
+  color: #020203;
 }
 
 body.theme-dark {
   background-color: #f4f4f4;
-  color: #111827;
+  color: #000000;
 }
 
 /* Páginas após login (Home, Conta, etc.) */
 body.theme-dark .page-index {
-  background-color: #020617;
+  background-color: #000000;
   color: #e5e7eb;
 }
 
@@ -656,9 +638,17 @@ body.theme-dark .page-index {
 body.theme-dark .home-topbar,
 body.theme-dark .account-section,
 body.theme-dark .page-index main {
-  background-color: #0b1120;
+  background-color: #0c0c07;
   color: #e5e7eb;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+}
+
+body.theme-dark .account-section .section-title {
+  color: #ffffff;      /* deixa o título CONTA bem visível */
+}
+
+body.theme-dark .account-section label {
+  color: #03f740;      /* mesma cor dos textos dos campos (Nome, Email, etc.) */
 }
 
 /* Texto da área "Bem-vindo, <nome>" e demais textos do main */
@@ -674,9 +664,13 @@ body.theme-dark .page-index input[type="email"],
 body.theme-dark .page-index input[type="password"],
 body.theme-dark .page-index input[type="tel"],
 body.theme-dark .page-index select {
-  background-color: #020617;
-  border-color: #1f2937;
-  color: #e5e7eb;
+  background-color: #141414;
+  border-color: #080808;
+  color: #ffffff;
+}
+
+body.theme-dark .page-index select option {
+  color: #ffffff;
 }
 
 body.theme-dark .page-index input::placeholder,
@@ -686,8 +680,8 @@ body.theme-dark .page-index select::placeholder {
 
 /* Botões em modo escuro apenas nas páginas logadas */
 body.theme-dark .page-index .btn-primary {
-  background-color: #22c55e;
-  border-color: #16a34a;
+  background-color: #fafdfb;
+  border-color: #fcfdfd;
   color: #052e16;
 }
 

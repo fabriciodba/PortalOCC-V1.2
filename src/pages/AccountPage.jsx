@@ -174,7 +174,7 @@ function AccountPage() {
       </header>
 
       <section className="account-section">
-        <h2 className="section-title">Conta</h2>
+        <h1 className="section-title">Conta</h1>
 
         <div className="account-photo-wrapper">
           <img
@@ -243,7 +243,7 @@ function AccountPage() {
               value={time}
               onChange={(e) => setTime(e.target.value)}
               required
-              style={{ color: time ? "#111827" : "#9ca3af" }}
+              
             >
               <option value="">Selecione a equipe</option>
               <option value="N1">N1</option>
