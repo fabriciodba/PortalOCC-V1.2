@@ -63,6 +63,34 @@ export async function apiUpdateAccount(userId, { nome, username, telefone, time,
   return data;
 }
 
+export async function apiChangePassword(
+  userId,
+  { currentPassword, newPassword, confirmPassword }
+) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/account/${userId}/change-password`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        current_password: currentPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+      }),
+    }
+  );
+
+  const data = await readJson(response);
+  const msg = data && data.detail ? data.detail : null;
+
+  if (!response.ok) {
+    throw new Error(msg || "Erro ao alterar senha.");
+  }
+
+  return msg || "Senha alterada com sucesso.";
+}
+
+
 export async function apiForgotPassword(email) {
   const response = await fetch(`${API_BASE_URL}/api/forgot-password`, {
     method: "POST",

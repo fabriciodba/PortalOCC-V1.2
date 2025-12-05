@@ -93,6 +93,12 @@ class ResetPasswordRequest(BaseModel):
     new_password: str
 
 
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+    confirm_password: str
+
+
 # ===========================================
 # Função auxiliar para criar usuário
 # ===========================================
@@ -198,6 +204,37 @@ def atualizar_conta(user_id: int, dados: UsuarioUpdate, db: Session = Depends(ge
 # ===========================================
 # ENDPOINT: Login
 # ===========================================
+@app.post("/api/account/{user_id}/change-password")
+def change_password(
+    user_id: int,
+    payload: ChangePasswordRequest,
+    db: Session = Depends(get_db),
+):
+    usuario = db.query(Usuario).filter(Usuario.id == user_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado.")
+
+    if not pwd_context.verify(payload.current_password, usuario.senha_hash):
+        raise HTTPException(status_code=400, detail="Senha atual incorreta.")
+
+    if payload.new_password != payload.confirm_password:
+        raise HTTPException(
+            status_code=400,
+            detail="A confirmação da senha não confere com a nova senha.",
+        )
+
+    if len(payload.new_password) < 6:
+        raise HTTPException(
+            status_code=400,
+            detail="A nova senha deve ter pelo menos 6 caracteres.",
+        )
+
+    usuario.senha_hash = pwd_context.hash(payload.new_password)
+    db.commit()
+
+    return {"detail": "Senha atualizada com sucesso."}
+
+
 @app.post("/api/login", response_model=UsuarioOut)
 def login(dados: LoginData, db: Session = Depends(get_db)):
     """Permite login usando e-mail ou username no mesmo campo (login)."""
