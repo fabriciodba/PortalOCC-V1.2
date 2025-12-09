@@ -8,6 +8,7 @@ function AccountPage() {
   const [usuario, setUsuario] = useState(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dbMenuOpen, setDbMenuOpen] = useState(false);
 
   const [nome, setNome] = useState("");
   const [username, setUsername] = useState("");
@@ -66,6 +67,7 @@ function AccountPage() {
 
   function closeMenu() {
     setMenuOpen(false);
+    setDbMenuOpen(false);
   }
 
   function handleThemeChange(novoTema) {
@@ -252,6 +254,7 @@ function AccountPage() {
             </span>
             </button>
           </div>
+          
           <ul className="side-menu-list">
             <li>
               <Link
@@ -262,7 +265,50 @@ function AccountPage() {
                 Painel
               </Link>
             </li>
+
+            <li className={dbMenuOpen ? "side-menu-item side-menu-item-open" : "side-menu-item"}>
+              <button
+                type="button"
+                className="side-menu-link side-menu-link-dropdown"
+                onClick={() => setDbMenuOpen((prev) => !prev)}
+              >
+                <span>Banco de dados</span>
+                <span className="side-menu-dropdown-arrow">
+                  {dbMenuOpen ? "▲" : "▼"}
+                </span>
+              </button>
+
+              {dbMenuOpen && (
+                <ul className="side-menu-sublist">
+                  <li>
+                    <Link
+                      to="/cmdb"
+                      className="side-menu-link-sub"
+                      onClick={() => {{
+                        closeMenu();
+                        setDbMenuOpen(false);
+                      }}}
+                    >
+                      CMDB
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dbs-monitor"
+                      className="side-menu-link-sub"
+                      onClick={() => {{
+                        closeMenu();
+                        setDbMenuOpen(false);
+                      }}}
+                    >
+                      DBs Monitor
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
           </ul>
+        
         </nav>
 
         {menuOpen && (

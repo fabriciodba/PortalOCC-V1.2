@@ -2,67 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import userImg from "../assets/img/user.png";
 
-const SLIDES = [
-  {
-    id: 1,
-    image: "https://picsum.photos/1600/400?random=1",
-    title: "Monitoramento em tempo real",
-    description: "Acompanhe seus ambientes de forma centralizada pelo Portal OCC.",
-  },
-  {
-    id: 2,
-    image: "https://picsum.photos/1600/400?random=2",
-    title: "Visão unificada",
-    description: "Reúna informações de times e sistemas em um único painel.",
-  },
-  {
-    id: 3,
-    image: "https://picsum.photos/1600/400?random=3",
-    title: "Automação e eficiência",
-    description: "Ganhe agilidade no dia a dia com automações e integrações.",
-  },
-];
-
-function HomePage() {
+function DbsMonitorPage() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dbMenuOpen, setDbMenuOpen] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
 
   useEffect(() => {
     const stored = localStorage.getItem("usuarioLogado");
-
     if (!stored) {
       navigate("/login");
       return;
     }
-
     try {
-      const parsed = JSON.parse(stored);
-      setUsuario(parsed);
-
-      const savedTheme = window.localStorage.getItem("theme") || "light";
-      if (typeof document !== "undefined") {
-        document.body.classList.remove("theme-light", "theme-dark");
-        document.body.classList.add(savedTheme === "dark" ? "theme-dark" : "theme-light");
-      }
-    } catch {
-      localStorage.removeItem("usuarioLogado");
+      setUsuario(JSON.parse(stored));
+    } catch (error) {
+      console.error("Erro ao ler usuário do localStorage:", error);
       navigate("/login");
     }
   }, [navigate]);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-    }, 5000);
-
-    return () => clearInterval(id);
-  }, []);
-
-
 
   function toggleMenu() {
     setMenuOpen((prev) => !prev);
@@ -103,7 +61,6 @@ function HomePage() {
           <div className="home-logo">Portal OCC</div>
         </div>
 
-
         <nav className={menuOpen ? "side-menu side-menu-open" : "side-menu"}>
           <div className="side-menu-user">
             <button
@@ -132,11 +89,11 @@ function HomePage() {
               aria-label="Sair"
             >
               <span className="logout-icon-arrow">
-              <span className="logout-arrow-line"></span>
-            </span>
+                <span className="logout-arrow-line"></span>
+              </span>
             </button>
           </div>
-          
+
           <ul className="side-menu-list">
             <li>
               <Link
@@ -166,10 +123,10 @@ function HomePage() {
                     <Link
                       to="/cmdb"
                       className="side-menu-link-sub"
-                      onClick={() => {{
+                      onClick={() => {
                         closeMenu();
                         setDbMenuOpen(false);
-                      }}}
+                      }}
                     >
                       CMDB
                     </Link>
@@ -178,10 +135,10 @@ function HomePage() {
                     <Link
                       to="/dbs-monitor"
                       className="side-menu-link-sub"
-                      onClick={() => {{
+                      onClick={() => {
                         closeMenu();
                         setDbMenuOpen(false);
-                      }}}
+                      }}
                     >
                       DBs Monitor
                     </Link>
@@ -190,7 +147,6 @@ function HomePage() {
               )}
             </li>
           </ul>
-        
         </nav>
 
         {menuOpen && (
@@ -201,48 +157,15 @@ function HomePage() {
         )}
       </header>
 
-      <section className="hero-slider">
-        <div className="hero-slider-inner">
-          <img
-            src={SLIDES[currentSlide].image}
-            alt={SLIDES[currentSlide].title}
-            className="hero-slider-image"
-          />
-          <div className="hero-slider-overlay">
-            <h2>{SLIDES[currentSlide].title}</h2>
-            <p>{SLIDES[currentSlide].description}</p>
-          </div>
-        </div>
-        <div className="hero-slider-dots">
-          {SLIDES.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              className={
-                index === currentSlide ? "slider-dot slider-dot-active" : "slider-dot"
-              }
-              onClick={() => setCurrentSlide(index)}
-            />
-          ))}
-        </div>
-      </section>
-
-      <main>
-        <h1>
-          Bem-vindo, <span id="home-title-name">{usuario.nome}</span>
-        </h1>
+      <main className="page-content">
+        <h1>DBs Monitor</h1>
         <p>
-          Esta é a página inicial do sistema. Use esta área para colocar:
+          Página para exibição de dashboards, métricas e status dos bancos
+          de dados monitorados.
         </p>
-        <ul>
-          <li>Resumo de informações;</li>
-          <li>Atalhos para outras funcionalidades;</li>
-          <li>Indicadores e gráficos;</li>
-          <li>Demais recursos que precisar.</li>
-        </ul>
       </main>
     </div>
   );
 }
 
-export default HomePage;
+export default DbsMonitorPage;

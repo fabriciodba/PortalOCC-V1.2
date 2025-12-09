@@ -6,6 +6,8 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./pages/HomePage";
 import AccountPage from "./pages/AccountPage";
+import CmdbPage from "./pages/CmdbPage";
+import DbsMonitorPage from "./pages/DbsMonitorPage";
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+      <Route path="/cmdb" element={<CmdbPage />} />
+      <Route path="/dbs-monitor" element={<DbsMonitorPage />} />
 
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
